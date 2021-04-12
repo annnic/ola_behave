@@ -60,7 +60,7 @@ else:
         make_M = "y"
         print("Making background from videos")
         if make_M == "y":
-            nth_frame = 100
+            nth_frame = 1000
             print("making background from every {} nth frame".format(nth_frame))
             background_vid(videofiles[0], nth_frame, 50)
             background_video = cv2.imread(glob.glob(os.path.join(videodir, "*background*"))[0], 0)
