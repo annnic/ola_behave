@@ -6,6 +6,8 @@ import yaml
 import numpy as np
 import cv2
 
+from ola_behave.io.yaml import load_yaml
+
 
 def roi_input():
     """input function for 1. asking how many ROIs"""
@@ -179,6 +181,8 @@ def threshold_select(video_path, median_full, rois):
         cv2.putText(full_image_thresholded, "Framenum: {}".format(frame_id), (30, full_image_thresholded.shape[0] -
                                                                               30),
                     cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=255)
+        cv2.putText(full_image_thresholded, "Choose the threshold, press 'q' once happy, threshold: {}".format(t_pos),
+                    (5, 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (10, 10, 200), 1)
 
         for roi in range(0, len(rois) - 1):
             if np.all(contourOI_[roi] != False):
