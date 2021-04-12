@@ -11,7 +11,7 @@ import cv2.cv2 as cv2
 import numpy as np
 
 
-def tracker(video_path, background_full, rois, threshold=5, display=True, area_size=0, split_range=False):
+def tracker(video_path, background_full, rois, threshold=5, display=True, area_min=0, area_max=10000, split_range=False):
     """ Function that takes a video path, a background file, rois, threshold and display switch. This then uses
     background subtraction and centroid tracking to find the XZ coordinates of the largest contour. Saves out a csv file
      with frame #, X, Y, contour area"""
@@ -68,7 +68,7 @@ def tracker(video_path, background_full, rois, threshold=5, display=True, area_s
                 if len(contours) > 0:
                     contourOI_.append(max(contours, key=cv2.contourArea))
                     area = cv2.contourArea(contourOI_[roi])
-                    if area > area_size:
+                    if (area > area_min) and (area < area_max):
                         contourOI.append(cv2.convexHull(contourOI_[roi]))
                         M = cv2.moments(contourOI[roi])
                         cx.append(int(M["m10"] / M["m00"]))
@@ -127,13 +127,13 @@ def tracker(video_path, background_full, rois, threshold=5, display=True, area_s
     for roi in range(0, len(rois) - 1):
         datanp = np.array(data[roi])
         if split_name is False:
-            filename = video_path[0:-4] + "_tracks_{}_Thresh_{}_Area_{}_roi-{}.csv".format(date, threshold, area_size,
+            filename = video_path[0:-4] + "_tracks_{}_Thresh_{}_Area_{}_roi-{}.csv".format(date, threshold, area_min,
                                                                                            roi)
         else:
             range_s = str(split_range[0]).zfill(5)
             range_e = str(split_range[1]).zfill(5)
             filename = video_path[0:-4] + "_tracks_{}_Thresh_{}_Area_{}_Range{}-{}_.csv".format(date, threshold,
-                                                                                                area_size, range_s,
+                                                                                                area_min, range_s,
                                                                                                 range_e)
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         np.savetxt(filename, datanp, delimiter=",")
