@@ -63,15 +63,18 @@ tv_epoque[j:] = num+1
 tv_s = tv / fps
 
 # scatter plot of position coloured by epoque
-fig, axs = plt.subplots(1, len(roi))
+fig, axs = plt.subplots(len(roi), len(epoque_lens), constrained_layout=True, figsize=(4, 8))
 fig.suptitle('Position graph')
 for roi_n in range(len(roi)):
-    # axs[roi_n].scatter(x[:, roi_n], neg_values(y[:, roi_n]), c=tv[:], cmap="viridis", s=0.5)
-    im = axs[roi_n].scatter(x[:, roi_n], neg_values(y[:, roi_n]), c=tv_epoque[:], cmap="Dark2", s=2.)
-    axs[roi_n].set_xticks([])
-    axs[roi_n].set_yticks([])
-cbar = fig.colorbar(im, ticks=np.arange(0, len(change_conditions)))
-cbar.ax.set_yticklabels(change_conditions)
+    for epoque_n in range(len(epoque_lens)):
+        im = axs[roi_n, epoque_n].scatter(x[tv_epoque == epoque_n, roi_n], neg_values(y[tv_epoque == epoque_n, roi_n]),
+                                          c=tv_s[tv_epoque == epoque_n], cmap="viridis", s=2.)
+        axs[roi_n, epoque_n].set_xticks([])
+        axs[roi_n, epoque_n].set_yticks([])
+        axs[0, epoque_n].set_title(change_conditions[epoque_n])
+    axs[roi_n, 0].set_ylabel("Roi-{}".format(roi_n))
+# cbar = fig.colorbar(im, ticks=np.arange(0, len(change_conditions)))
+# cbar.ax.set_yticklabels(change_conditions)
 plt.savefig(os.path.join(path, "{}_scatter_position.png".format(os.path.basename(path))))
 
 # ## HEATMAP ##
