@@ -6,11 +6,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from tkinter import *
 from tkinter.filedialog import askdirectory
-import pandas as pd
 
 from ola_behave.analysis.als_functions import neg_values, binner, remove_high_spd, smooth_speed
 from ola_behave.io.tracks import load_track
-# from ola_behave.utils.timings import infer_tv
 from ola_behave.plotting.plots import filled_plot
 
 # Allows a user to select file
