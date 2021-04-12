@@ -99,5 +99,5 @@ threshold = threshold_select(videofiles[0], background_video, rois)
 # Run tracking script
 for video_path in videofiles:
     precall = time.perf_counter()
-    tracker(video_path, background_video, rois, threshold, display=False, area_size=0)
+    tracker(video_path, background_video, rois, threshold, display=False, area_size=0, area_max=1000)
     print("Movie {} took {:.2f} seconds to track".format(video_path, time.perf_counter() - precall))

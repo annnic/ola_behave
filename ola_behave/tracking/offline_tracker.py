@@ -11,7 +11,7 @@ import cv2.cv2 as cv2
 import numpy as np
 
 
-def tracker(video_path, background_full, rois, threshold=5, display=True, area_min=0, area_max=10000, split_range=False):
+def tracker(video_path, background_full, rois, threshold=5, display=True, area_min=0, area_max=1000, split_range=False):
     """ Function that takes a video path, a background file, rois, threshold and display switch. This then uses
     background subtraction and centroid tracking to find the XZ coordinates of the largest contour. Saves out a csv file
      with frame #, X, Y, contour area"""
